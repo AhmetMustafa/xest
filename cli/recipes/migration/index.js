@@ -2,8 +2,8 @@ const inquirer = require("inquirer");
 const kebabCase = require("lodash/kebabCase");
 const { execSync } = require("child_process");
 const inquirerFileTreeSelection = require("inquirer-file-tree-selection-prompt");
+
 inquirer.registerPrompt("file-tree-selection", inquirerFileTreeSelection);
-const chalk = require("chalk");
 
 module.exports = {
   name: "migration", // MUST match directory name
@@ -20,11 +20,11 @@ module.exports = {
         .prompt({
           type: "input",
           name: "migrationName",
-          validate: input => Boolean(input.trim()),
+          validate: (input) => Boolean(input.trim()),
           message:
-            "What is changing with this migration? E.g: drop-payment-id-field"
+            "What is changing with this migration? E.g: drop-payment-id-field",
         })
-        .then(response => {
+        .then((response) => {
           return { migrationName: kebabCase(response.migrationName) };
         });
     }
@@ -38,13 +38,13 @@ module.exports = {
 
         execSync(`npm run migrate:new ${migrationName}`, {
           cwd: projectRootPath,
-          stdio: "inherit"
+          stdio: "inherit",
         });
 
         // return null so transformation is skipped;
         return null;
       },
-      targetFileWriter: async () => {}
-    }
-  ]
+      targetFileWriter: async () => {},
+    },
+  ],
 };

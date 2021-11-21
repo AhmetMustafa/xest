@@ -4,7 +4,7 @@ const finder = require("find-package-json");
 
 const findProjectRoot = () => {
   let found = false;
-  let f = finder(process.cwd());
+  const f = finder(process.cwd());
   let projectRoot = { done: false };
   while (!found && projectRoot.done === false) {
     projectRoot = f.next();

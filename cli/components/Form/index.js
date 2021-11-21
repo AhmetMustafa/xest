@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const inquirerFileTreeSelection = require("inquirer-file-tree-selection-prompt");
+
 inquirer.registerPrompt("file-tree-selection", inquirerFileTreeSelection);
 
 const useForm = () => {

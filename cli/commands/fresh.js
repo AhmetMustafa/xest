@@ -1,8 +1,8 @@
 const snakeCase = require("lodash/snakeCase");
 const chalk = require("chalk");
+const { dirname } = require("path");
 const findProjectRoot = require("../utils/findProjectRoot");
 const runMySQLContainer = require("../utils/runMySQLContainer");
-const { dirname } = require("path");
 const runSqlQueryWithinContainer = require("../utils/runSqlQueryWithinContainer");
 const { run } = require("./run");
 
@@ -16,7 +16,7 @@ const fresh = async () => {
   }
 
   const {
-    value: { name: projectName }
+    value: { name: projectName },
   } = projectDetails;
 
   const { filename } = projectDetails;
@@ -60,5 +60,5 @@ const fresh = async () => {
 };
 
 module.exports = {
-  fresh
+  fresh,
 };

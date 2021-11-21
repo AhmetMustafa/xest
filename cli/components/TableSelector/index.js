@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const searchList = require("inquirer-search-list");
+
 inquirer.registerPrompt("search-list", searchList);
 
 const TableColumnSelector = ({ tables, ...rest }) => {

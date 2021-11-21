@@ -1,9 +1,8 @@
-const fs = require("fs");
 const { execSync } = require("child_process");
 const snakeCase = require("lodash/snakeCase");
+const { mapValues, get } = require("lodash");
+const chalk = require("chalk");
 const { writeFile } = require("../../../utils/createFile");
-const get = require("lodash/get");
-const { mapValues } = require("lodash");
 
 const updateDatabaseMetadata = async ({
   mySQLContainerId,
@@ -27,7 +26,7 @@ const updateDatabaseMetadata = async ({
         REFERENCED_TABLE_SCHEMA = '${dbName}';`;
 
     const getForeignKeysQuery = `docker exec -i ${mySQLContainerId} ${mySQLConnectionString} <<< "${getForeignKeys}"`;
-    out = await execSync(getForeignKeysQuery, {
+    const out = await execSync(getForeignKeysQuery, {
       cwd: rootPath,
     }).toString();
     const rows = out
@@ -47,7 +46,7 @@ const updateDatabaseMetadata = async ({
         return acc;
       }
       const key = `${curr.sourceTable}.${curr.sourceColumn}`;
-      let table = acc[key];
+      const table = acc[key];
       if (table) {
         table.push(curr);
       } else {
@@ -100,7 +99,7 @@ const updateDatabaseMetadata = async ({
         };
       });
     const tables = rows.reduce((acc, curr) => {
-      let table = acc[curr.table];
+      const table = acc[curr.table];
       if (table) {
         table.push(curr);
       } else {
@@ -120,7 +119,7 @@ const updateDatabaseMetadata = async ({
       chalk.red`Can not generate database metadata. Please report the above error at https://github.com/CyprusCodes/xest/issues`
     );
   }
-  
+
   if (databaseSchemaOutput && foreignKeySummaryOutput) {
     const listOfForeignKeys = Object.keys(foreignKeySummaryOutput);
     const finalOutput = mapValues(databaseSchemaOutput, (columns) => {
@@ -131,7 +130,7 @@ const updateDatabaseMetadata = async ({
         if (isForeignKey) {
           const foreignKeyInformation = get(
             foreignKeySummaryOutput[pathToCheck],
-            `[0]`,
+            "[0]",
             {}
           );
           return {
